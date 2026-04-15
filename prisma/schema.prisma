@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  uuid      String     @id @default(uuid())
+  email     String     @unique
+  name      String     @db.VarChar(150)
+  password  String     @db.VarChar(150)
+  pekerjaan String?    @db.VarChar(150)
+  userAlats UserAlat[]
+
+  @@map("users")
+}
+
+model Alat {
+  id             String          @id @default(uuid()) @map("IDAlat")
+  nama           String          @map("nama_alat") @db.VarChar(150)
+  type           String          @map("type_alat") @db.VarChar(150)
+  userAlats      UserAlat[]
+  sensorSettings SensorSetting[]
+
+  @@map("alat")
+}
+
+model UserAlat {
+  userId String
+  alatId String
+
+  user User @relation(fields: [userId], references: [uuid])
+  alat Alat @relation(fields: [alatId], references: [id])
+
+  @@id([userId, alatId])
+  @@map("user_alat")
+}
+
+enum SensorType {
+  OXYGEN
+  PH
+  TURBIDITY
+  TEMPERATURE
+}
+
+model SensorSetting {
+  id               Int        @id @default(autoincrement())
+  alatId           String
+  sensor_type      SensorType @map("sensor_type")
+  is_active        Boolean    @default(true) @map("is_active")
+  min_value        Float?     @map("min_value")
+  max_value        Float?     @map("max_value")
+  alert_interval   Int        @map("alert_interval")
+  last_notified_at DateTime?  @map("last_notified_at")
+
+  alat Alat @relation(fields: [alatId], references: [id])
+
+  @@map("sensor_settings")
+}
