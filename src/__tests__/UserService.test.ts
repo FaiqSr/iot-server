@@ -6,6 +6,11 @@ jest.mock("../utils/prisma", () => ({
       create: jest.fn(),
       findUnique: jest.fn(),
     },
+    refreshToken: {
+      create: jest.fn(),
+      findUnique: jest.fn(),
+      update: jest.fn(),
+    },
   },
 }));
 
@@ -83,7 +88,7 @@ describe("UserService", () => {
 
       expect(prisma.user.findUnique).toHaveBeenCalledWith({ where: { email: "alice@example.com" } });
       expect(res.accessToken).toBe("token");
-      expect(res.user).toEqual({ id: "u1", email: "alice@example.com", name: "Alice" });
+      expect(res.user).toEqual({ id: "u1", email: "alice@example.com", name: "Alice", role: "user" });
     });
 
     it("throws on invalid credentials", async () => {

@@ -11,7 +11,7 @@ jest.mock("../service/notificationService", () => ({
 
 jest.mock("../utils/prisma", () => ({
   __esModule: true,
-  default: { sensorSetting: { update: jest.fn() } },
+  default: { sensorSetting: { update: jest.fn() }, refreshToken: { create: jest.fn(), findUnique: jest.fn(), update: jest.fn() } },
 }));
 
 import request from "supertest";

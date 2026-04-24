@@ -1,4 +1,4 @@
-import { RegisterUserResponse, RegisterUserRequest } from "../lib/types/user";
+import { RegisterUserResponse, RegisterUserRequest, LoginUser } from "../lib/types/user";
 import { ValidationService } from "../utils/validation";
 import { UserValidation } from "../lib/validation/UserValidation";
 import prismaClient from "../utils/prisma";
@@ -32,6 +32,19 @@ export class UserService {
       id: user.uuid,
       email: user.email,
       name: user.name,
+    };
+  }
+
+  public static async getById(userId: string): Promise<LoginUser | null> {
+    const user = await prismaClient.user.findUnique({ where: { uuid: userId } });
+    if (!user) return null;
+    const role = user.pekerjaan === "admin" ? "admin" : "user";
+    return {
+      id: user.uuid,
+      email: user.email,
+      name: user.name,
+      role,
+      ...(user.pekerjaan != null ? { pekerjaan: user.pekerjaan } : {}),
     };
   }
 }
