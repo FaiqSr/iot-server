@@ -8,4 +8,4 @@ firebase-service-account.json
 
 package-lock.json
 
-./dist
+dist
