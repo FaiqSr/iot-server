@@ -7,7 +7,7 @@ exports.DeviceValidation = void 0;
 const zod_1 = __importDefault(require("zod"));
 class DeviceValidation {
     static CLAIM = zod_1.default.object({
-        idAlat: zod_1.default.string().uuid(),
+        idAlat: zod_1.default.string()
     });
 }
 exports.DeviceValidation = DeviceValidation;

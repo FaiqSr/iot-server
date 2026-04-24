@@ -14,5 +14,10 @@ export declare class DeviceService {
         id: string;
         nama: string;
     }[]>;
+    static removeDevice(userId: string, idAlat: string): Promise<false | {
+        type: string;
+        id: string;
+        nama: string;
+    } | null>;
 }
 //# sourceMappingURL=DeviceService.d.ts.map

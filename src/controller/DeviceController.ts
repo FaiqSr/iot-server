@@ -46,4 +46,27 @@ export class DeviceController {
       return next(err);
     }
   }
+
+  public static async removeDevice(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = (req as any).user;
+      if (!user || !user.id) return res.status(401).json({ error: "Unauthorized" });
+
+      const idAlat = req.params.alatId as string;
+
+      const result = await DeviceService.removeDevice(user.id, idAlat);
+
+      if (result === null) {
+        return res.status(404).json({ error: "Device not found" });
+      }
+
+      if (result === false) {
+        return res.status(404).json({ error: "Ownership not found" });
+      }
+
+      return res.status(200).json({ data: { id: result.id, nama: result.nama, type: result.type } });
+    } catch (err) {
+      return next(err);
+    }
+  }
 }

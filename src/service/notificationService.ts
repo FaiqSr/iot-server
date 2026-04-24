@@ -50,7 +50,7 @@ export async function sendDeviceNotification(
   const message: admin.messaging.Message = {
     token: targetToken,
     notification: { title, body },
-    data: data ? Object.fromEntries(Object.entries(data).map(([k, v]) => [k, String(v)])) : undefined,
+    ...(data ? { data: Object.fromEntries(Object.entries(data).map(([k, v]) => [k, String(v)])) } : {}),
   };
 
   try {
@@ -78,7 +78,7 @@ export async function sendTopicNotification(
   const message: admin.messaging.Message = {
     topic: topicName,
     notification: { title, body },
-    data: data ? Object.fromEntries(Object.entries(data).map(([k, v]) => [k, String(v)])) : undefined,
+    ...(data ? { data: Object.fromEntries(Object.entries(data).map(([k, v]) => [k, String(v)])) } : {}),
   };
 
   try {

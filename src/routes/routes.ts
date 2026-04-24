@@ -1,23 +1,36 @@
 import { Router } from "express";
 import { UserController } from "../controller/UserController";
 import { AuthMiddleware } from "../middleware/AuthMiddleware";
+import { requireRole } from "../middleware/RoleMiddleware";
 import { DeviceController } from "../controller/DeviceController";
 import { SensorSettingController } from "../controller/SensorSettingController";
 import { NotificationController } from "../controller/NotificationController";
 
 const router = Router();
 
-router.post("/user/register", async (req, res, next) => UserController.register(req, res, next));
-router.post("/user/login", async (req, res, next) => UserController.login(req, res, next));
-router.post("/user/logout", async (req, res, next) => UserController.logout(req, res, next));
-router.get("/user/me", AuthMiddleware, async (req, res, next) => UserController.me(req, res, next));
+router.post("/api/user/register", async (req, res, next) => UserController.register(req, res, next));
+router.post("/api/user/login", async (req, res, next) => UserController.login(req, res, next));
+router.post("/api/user/refresh", async (req, res, next) => UserController.refresh(req, res, next));
+router.post("/api/user/logout", async (req, res, next) => UserController.logout(req, res, next));
+router.get("/api/user/me", AuthMiddleware, async (req, res, next) => UserController.me(req, res, next));
 
+router.post("/api/device/claim", AuthMiddleware, async (req, res, next) =>
+  DeviceController.claimDevice(req, res, next),
+);
+
+// legacy / alternate route used in integration tests
 router.post("/api/claim-device", AuthMiddleware, async (req, res, next) =>
   DeviceController.claimDevice(req, res, next),
 );
 
 router.get("/api/devices", async (req, res, next) => DeviceController.listDevices(req, res, next));
 router.get("/api/user/devices", AuthMiddleware, async (req, res, next) => DeviceController.myDevices(req, res, next));
+
+router.delete(
+  "/api/user/devices/:alatId",
+  AuthMiddleware,
+  async (req, res, next) => DeviceController.removeDevice(req, res, next),
+);
 
 router.get("/api/settings/:alatId", async (req, res, next) => SensorSettingController.getSettings(req, res, next));
 

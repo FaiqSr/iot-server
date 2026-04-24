@@ -33,6 +33,19 @@ class UserService {
             name: user.name,
         };
     }
+    static async getById(userId) {
+        const user = await prisma_1.default.user.findUnique({ where: { uuid: userId } });
+        if (!user)
+            return null;
+        const role = user.pekerjaan === "admin" ? "admin" : "user";
+        return {
+            id: user.uuid,
+            email: user.email,
+            name: user.name,
+            role,
+            ...(user.pekerjaan != null ? { pekerjaan: user.pekerjaan } : {}),
+        };
+    }
 }
 exports.UserService = UserService;
 //# sourceMappingURL=UserService.js.map

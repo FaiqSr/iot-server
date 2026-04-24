@@ -30,6 +30,7 @@ export declare const ModelName: {
     readonly Alat: "Alat";
     readonly UserAlat: "UserAlat";
     readonly SensorSetting: "SensorSetting";
+    readonly RefreshToken: "RefreshToken";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export declare const TransactionIsolationLevel: {
@@ -69,6 +70,14 @@ export declare const SensorSettingScalarFieldEnum: {
     readonly last_notified_at: "last_notified_at";
 };
 export type SensorSettingScalarFieldEnum = (typeof SensorSettingScalarFieldEnum)[keyof typeof SensorSettingScalarFieldEnum];
+export declare const RefreshTokenScalarFieldEnum: {
+    readonly id: "id";
+    readonly token: "token";
+    readonly userId: "userId";
+    readonly revoked: "revoked";
+    readonly expiresAt: "expiresAt";
+};
+export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";

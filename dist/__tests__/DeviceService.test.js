@@ -15,6 +15,11 @@ jest.mock("../utils/prisma", () => ({
             create: jest.fn(),
             findMany: jest.fn(),
         },
+        refreshToken: {
+            create: jest.fn(),
+            findUnique: jest.fn(),
+            update: jest.fn(),
+        },
     },
 }));
 const prisma_1 = __importDefault(require("../utils/prisma"));

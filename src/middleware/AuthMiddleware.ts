@@ -17,7 +17,7 @@ export async function AuthMiddleware(req: Request, res: Response, next: NextFunc
 
   try {
     const payload = verifyJwt(token);
-    (req as any).user = { id: payload.userId, email: payload.email };
+    (req as any).user = { id: payload.userId, email: payload.email, role: payload.role };
     return next();
   } catch (err) {
     return res.status(401).json({ error: "Invalid token" });

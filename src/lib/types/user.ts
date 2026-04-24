@@ -19,9 +19,12 @@ export type LoginUser = {
   id: string;
   email: string;
   name: string;
+  pekerjaan?: string;
+  role?: string;
 };
 
 export type LoginResponse = {
   accessToken: string;
+  refreshToken?: string;
   user: LoginUser;
 };

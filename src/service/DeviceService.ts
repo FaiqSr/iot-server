@@ -12,7 +12,6 @@ export class DeviceService {
       return null;
     }
 
-    // Check if relation already exists
     const existing = await prismaClient.userAlat.findFirst({ where: { userId, alatId: idAlat } });
 
     if (!existing) {
@@ -29,5 +28,25 @@ export class DeviceService {
   public static async getUserDevices(userId: string) {
     const relations = await prismaClient.userAlat.findMany({ where: { userId }, include: { alat: true } });
     return relations.map((r) => r.alat);
+  }
+
+  public static async removeDevice(userId: string, idAlat: string) {
+    if (!idAlat) {
+      throw new Error("IDAlat is required");
+    }
+
+    const device = await prismaClient.alat.findUnique({ where: { id: idAlat } });
+
+    if (!device) {
+      return null;
+    }
+
+    const deleted = await prismaClient.userAlat.deleteMany({ where: { userId, alatId: idAlat } });
+
+    if (deleted.count === 0) {
+      return false;
+    }
+
+    return device;
   }
 }

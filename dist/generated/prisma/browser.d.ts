@@ -22,4 +22,9 @@ export type UserAlat = Prisma.UserAlatModel;
  *
  */
 export type SensorSetting = Prisma.SensorSettingModel;
+/**
+ * Model RefreshToken
+ *
+ */
+export type RefreshToken = Prisma.RefreshTokenModel;
 //# sourceMappingURL=browser.d.ts.map

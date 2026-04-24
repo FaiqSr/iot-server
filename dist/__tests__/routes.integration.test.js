@@ -15,6 +15,11 @@ jest.mock("../utils/prisma", () => ({
             create: jest.fn(),
             findMany: jest.fn(),
         },
+        refreshToken: {
+            create: jest.fn(),
+            findUnique: jest.fn(),
+            update: jest.fn(),
+        },
     },
 }));
 jest.mock("../utils/jwt", () => ({

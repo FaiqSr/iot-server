@@ -14,6 +14,11 @@ jest.mock("../utils/prisma", () => ({
         alat: {
             findUnique: jest.fn(),
         },
+        refreshToken: {
+            create: jest.fn(),
+            findUnique: jest.fn(),
+            update: jest.fn(),
+        },
     },
 }));
 const supertest_1 = __importDefault(require("supertest"));

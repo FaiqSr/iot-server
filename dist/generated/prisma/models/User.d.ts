@@ -139,6 +139,7 @@ export type UserWhereInput = {
     password?: Prisma.StringFilter<"User"> | string;
     pekerjaan?: Prisma.StringNullableFilter<"User"> | string | null;
     userAlats?: Prisma.UserAlatListRelationFilter;
+    refreshTokens?: Prisma.RefreshTokenListRelationFilter;
 };
 export type UserOrderByWithRelationInput = {
     uuid?: Prisma.SortOrder;
@@ -147,6 +148,7 @@ export type UserOrderByWithRelationInput = {
     password?: Prisma.SortOrder;
     pekerjaan?: Prisma.SortOrderInput | Prisma.SortOrder;
     userAlats?: Prisma.UserAlatOrderByRelationAggregateInput;
+    refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput;
 };
 export type UserWhereUniqueInput = Prisma.AtLeast<{
     uuid?: string;
@@ -158,6 +160,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
     password?: Prisma.StringFilter<"User"> | string;
     pekerjaan?: Prisma.StringNullableFilter<"User"> | string | null;
     userAlats?: Prisma.UserAlatListRelationFilter;
+    refreshTokens?: Prisma.RefreshTokenListRelationFilter;
 }, "uuid" | "email">;
 export type UserOrderByWithAggregationInput = {
     uuid?: Prisma.SortOrder;
@@ -186,6 +189,7 @@ export type UserCreateInput = {
     password: string;
     pekerjaan?: string | null;
     userAlats?: Prisma.UserAlatCreateNestedManyWithoutUserInput;
+    refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateInput = {
     uuid?: string;
@@ -194,6 +198,7 @@ export type UserUncheckedCreateInput = {
     password: string;
     pekerjaan?: string | null;
     userAlats?: Prisma.UserAlatUncheckedCreateNestedManyWithoutUserInput;
+    refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserUpdateInput = {
     uuid?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -202,6 +207,7 @@ export type UserUpdateInput = {
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     userAlats?: Prisma.UserAlatUpdateManyWithoutUserNestedInput;
+    refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateInput = {
     uuid?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -210,6 +216,7 @@ export type UserUncheckedUpdateInput = {
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     userAlats?: Prisma.UserAlatUncheckedUpdateManyWithoutUserNestedInput;
+    refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateManyInput = {
     uuid?: string;
@@ -275,12 +282,25 @@ export type UserUpdateOneRequiredWithoutUserAlatsNestedInput = {
     connect?: Prisma.UserWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserAlatsInput, Prisma.UserUpdateWithoutUserAlatsInput>, Prisma.UserUncheckedUpdateWithoutUserAlatsInput>;
 };
+export type UserCreateNestedOneWithoutRefreshTokensInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutRefreshTokensInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneRequiredWithoutRefreshTokensNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutRefreshTokensInput;
+    upsert?: Prisma.UserUpsertWithoutRefreshTokensInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRefreshTokensInput, Prisma.UserUpdateWithoutRefreshTokensInput>, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>;
+};
 export type UserCreateWithoutUserAlatsInput = {
     uuid?: string;
     email: string;
     name: string;
     password: string;
     pekerjaan?: string | null;
+    refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutUserAlatsInput = {
     uuid?: string;
@@ -288,6 +308,7 @@ export type UserUncheckedCreateWithoutUserAlatsInput = {
     name: string;
     password: string;
     pekerjaan?: string | null;
+    refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutUserAlatsInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -308,6 +329,7 @@ export type UserUpdateWithoutUserAlatsInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutUserAlatsInput = {
     uuid?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -315,15 +337,63 @@ export type UserUncheckedUpdateWithoutUserAlatsInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
+};
+export type UserCreateWithoutRefreshTokensInput = {
+    uuid?: string;
+    email: string;
+    name: string;
+    password: string;
+    pekerjaan?: string | null;
+    userAlats?: Prisma.UserAlatCreateNestedManyWithoutUserInput;
+};
+export type UserUncheckedCreateWithoutRefreshTokensInput = {
+    uuid?: string;
+    email: string;
+    name: string;
+    password: string;
+    pekerjaan?: string | null;
+    userAlats?: Prisma.UserAlatUncheckedCreateNestedManyWithoutUserInput;
+};
+export type UserCreateOrConnectWithoutRefreshTokensInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>;
+};
+export type UserUpsertWithoutRefreshTokensInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutRefreshTokensInput, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutRefreshTokensInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutRefreshTokensInput, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>;
+};
+export type UserUpdateWithoutRefreshTokensInput = {
+    uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    password?: Prisma.StringFieldUpdateOperationsInput | string;
+    pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    userAlats?: Prisma.UserAlatUpdateManyWithoutUserNestedInput;
+};
+export type UserUncheckedUpdateWithoutRefreshTokensInput = {
+    uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    password?: Prisma.StringFieldUpdateOperationsInput | string;
+    pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    userAlats?: Prisma.UserAlatUncheckedUpdateManyWithoutUserNestedInput;
 };
 /**
  * Count Type UserCountOutputType
  */
 export type UserCountOutputType = {
     userAlats: number;
+    refreshTokens: number;
 };
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     userAlats?: boolean | UserCountOutputTypeCountUserAlatsArgs;
+    refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs;
 };
 /**
  * UserCountOutputType without action
@@ -340,6 +410,12 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 export type UserCountOutputTypeCountUserAlatsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.UserAlatWhereInput;
 };
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.RefreshTokenWhereInput;
+};
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     uuid?: boolean;
     email?: boolean;
@@ -347,6 +423,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     password?: boolean;
     pekerjaan?: boolean;
     userAlats?: boolean | Prisma.User$userAlatsArgs<ExtArgs>;
+    refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -373,6 +450,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uuid" | "email" | "name" | "password" | "pekerjaan", ExtArgs["result"]["user"]>;
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     userAlats?: boolean | Prisma.User$userAlatsArgs<ExtArgs>;
+    refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
@@ -381,6 +459,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: "User";
     objects: {
         userAlats: Prisma.$UserAlatPayload<ExtArgs>[];
+        refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         uuid: string;
@@ -718,6 +797,7 @@ export interface UserDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
     userAlats<T extends Prisma.User$userAlatsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userAlatsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAlatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    refreshTokens<T extends Prisma.User$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1145,6 +1225,29 @@ export type User$userAlatsArgs<ExtArgs extends runtime.Types.Extensions.Internal
     take?: number;
     skip?: number;
     distinct?: Prisma.UserAlatScalarFieldEnum | Prisma.UserAlatScalarFieldEnum[];
+};
+/**
+ * User.refreshTokens
+ */
+export type User$refreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RefreshToken
+     */
+    select?: Prisma.RefreshTokenSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the RefreshToken
+     */
+    omit?: Prisma.RefreshTokenOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.RefreshTokenInclude<ExtArgs> | null;
+    where?: Prisma.RefreshTokenWhereInput;
+    orderBy?: Prisma.RefreshTokenOrderByWithRelationInput | Prisma.RefreshTokenOrderByWithRelationInput[];
+    cursor?: Prisma.RefreshTokenWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.RefreshTokenScalarFieldEnum | Prisma.RefreshTokenScalarFieldEnum[];
 };
 /**
  * User without action

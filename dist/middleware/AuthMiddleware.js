@@ -14,7 +14,7 @@ async function AuthMiddleware(req, res, next) {
     }
     try {
         const payload = (0, jwt_1.verifyJwt)(token);
-        req.user = { id: payload.userId, email: payload.email };
+        req.user = { id: payload.userId, email: payload.email, role: payload.role };
         return next();
     }
     catch (err) {

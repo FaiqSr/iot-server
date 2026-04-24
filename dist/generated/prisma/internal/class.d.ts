@@ -159,6 +159,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
     get sensorSetting(): Prisma.SensorSettingDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
+    /**
+     * `prisma.refreshToken`: Exposes CRUD operations for the **RefreshToken** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more RefreshTokens
+      * const refreshTokens = await prisma.refreshToken.findMany()
+      * ```
+      */
+    get refreshToken(): Prisma.RefreshTokenDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
 }
 export declare function getPrismaClientClass(): PrismaClientConstructor;
 //# sourceMappingURL=class.d.ts.map
