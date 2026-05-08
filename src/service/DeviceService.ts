@@ -49,4 +49,26 @@ export class DeviceService {
 
     return device;
   }
+
+  public static async registerFcm(userId: string, fcmToken: string) {
+    if (!fcmToken) throw new Error("FCM token is required");
+
+    try {
+      // if token already exists, associate it with the user (or return existing)
+      const existing = await (prismaClient as any).fcmToken.findUnique({ where: { token: fcmToken } as any });
+      if (existing) {
+        if (existing.userId !== userId) {
+          const updated = await (prismaClient as any).fcmToken.update({ where: { id: existing.id }, data: { userId } as any });
+          return updated;
+        }
+        return existing;
+      }
+
+      const created = await (prismaClient as any).fcmToken.create({ data: { token: fcmToken, userId } as any });
+      return created;
+    } catch (err) {
+      const created = await (prismaClient as any).fcmToken.create({ data: { token: fcmToken, userId } as any });
+      return created;
+    }
+  }
 }

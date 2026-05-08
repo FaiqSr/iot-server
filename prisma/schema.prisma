@@ -19,6 +19,7 @@ model User {
   password      String         @db.VarChar(150)
   pekerjaan     String?        @db.VarChar(150)
   userAlats     UserAlat[]
+  fcmTokens     FcmToken[]
   refreshTokens RefreshToken[]
 
   @@map("users")
@@ -45,8 +46,20 @@ model UserAlat {
   @@map("user_alat")
 }
 
+model FcmToken {
+  id        String   @id @default(uuid())
+  token     String   @unique @db.Text
+  userId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [uuid])
+
+  @@map("fcm_tokens")
+}
+
 enum SensorType {
   OXYGEN
+  AMMONIA
   PH
   TURBIDITY
   TEMPERATURE

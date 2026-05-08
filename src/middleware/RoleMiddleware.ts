@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { UserService } from "../service/UserService";
 
+type AuthenticatedRequest = Request & { user?: { id?: string; role?: string; pekerjaan?: string } };
+
 export function requireRole(role: string) {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const user = (req as any).user;
+    const user = (req as AuthenticatedRequest).user;
     if (!user || !user.id) return res.status(401).json({ error: "Unauthorized" });
 
     // Fast path: check role from token if present
@@ -18,8 +20,8 @@ export function requireRole(role: string) {
       const dbRole = dbUser?.role || (dbUser?.pekerjaan === "admin" ? "admin" : "user");
       if (dbRole !== role) return res.status(403).json({ error: "Forbidden" });
       return next();
-    } catch (err) {
-      return next(err);
+    } catch (_err) {
+      return next(_err);
     }
   };
 }

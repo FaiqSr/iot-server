@@ -3,12 +3,14 @@ import { DeviceService } from "../service/DeviceService";
 import { ValidationService } from "../utils/validation";
 import { DeviceValidation } from "../lib/validation/DeviceValidation";
 
+type AuthenticatedRequest = Request & { user?: { id?: string; role?: string } };
+
 export class DeviceController {
   public static async claimDevice(req: Request, res: Response, next: NextFunction) {
     try {
       const body = ValidationService.validate(DeviceValidation.CLAIM, req.body);
       const idAlat = body.idAlat;
-      const user = (req as any).user;
+      const user = (req as AuthenticatedRequest).user;
 
       if (!user || !user.id) {
         return res.status(401).json({ error: "Unauthorized" });
@@ -37,7 +39,7 @@ export class DeviceController {
 
   public static async myDevices(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = (req as any).user;
+      const user = (req as AuthenticatedRequest).user;
       if (!user || !user.id) return res.status(401).json({ error: "Unauthorized" });
 
       const devices = await DeviceService.getUserDevices(user.id);
@@ -49,7 +51,7 @@ export class DeviceController {
 
   public static async removeDevice(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = (req as any).user;
+      const user = (req as AuthenticatedRequest).user;
       if (!user || !user.id) return res.status(401).json({ error: "Unauthorized" });
 
       const idAlat = req.params.alatId as string;
@@ -65,6 +67,23 @@ export class DeviceController {
       }
 
       return res.status(200).json({ data: { id: result.id, nama: result.nama, type: result.type } });
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  public static async registerFcm(req: Request, res: Response, next: NextFunction) {
+    try {
+      const body = ValidationService.validate(DeviceValidation.REGISTER_FCM, req.body as unknown);
+      const token = body.FCM;
+      const user = (req as AuthenticatedRequest).user;
+
+      if (!user || !user.id) return res.status(401).json({ error: "Unauthorized" });
+
+      const updated = await DeviceService.registerFcm(user.id, token as string);
+      if (!updated) return res.status(404).json({ error: "Device not found" });
+
+      return res.status(200).json({ data: updated });
     } catch (err) {
       return next(err);
     }

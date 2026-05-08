@@ -1,4 +1,5 @@
-/* eslint-env jest */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports */
+
 jest.mock("firebase-admin", () => {
   const messagingMock = { send: jest.fn() };
   const core = {

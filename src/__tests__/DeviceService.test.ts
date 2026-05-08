@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports */
+
 jest.mock("../utils/prisma", () => ({
   __esModule: true,
   default: {
