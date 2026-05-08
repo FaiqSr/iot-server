@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { UserService } from "../service/UserService";
 import { AuthService } from "../service/AuthService";
 
+type AuthenticatedRequest = Request & { user?: { id?: string; role?: string } };
+
 export class UserController {
   public static async register(req: Request, res: Response, next: NextFunction) {
     try {
@@ -44,7 +46,7 @@ export class UserController {
 
   public static async me(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = (req as any).user;
+      const user = (req as AuthenticatedRequest).user;
       if (!user || !user.id) return res.status(401).json({ error: "Unauthorized" });
 
       const dbUser = await UserService.getById(user.id);

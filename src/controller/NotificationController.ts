@@ -3,18 +3,29 @@ import SensorSettingService from "../service/SensorSettingService";
 import prisma from "../utils/prisma";
 import NotificationService from "../service/notificationService";
 
+type SensorSettingEntry = {
+  id: number;
+  alatId: string;
+  sensor_type: string;
+  is_active: boolean;
+  min_value: number | null;
+  max_value: number | null;
+  alert_interval: number | null | undefined;
+  last_notified_at?: string | null | Date;
+};
+
 export class NotificationController {
   public static async processReading(req: Request, res: Response, next: NextFunction) {
     try {
       const { alatId, sensorType, value } = req.body as { alatId?: string; sensorType?: string; value?: number };
       if (!alatId || !sensorType || typeof value !== "number") {
-        const e: any = new Error("Invalid payload");
+        const e = new Error("Invalid payload") as Error & { status?: number };
         e.status = 400;
         throw e;
       }
 
-      const settings = await SensorSettingService.getSettingsByAlat(alatId);
-      const setting = settings.find((s: any) => s.sensor_type === sensorType);
+      const settings = (await SensorSettingService.getSettingsByAlat(alatId)) as SensorSettingEntry[];
+      const setting = settings.find((s) => s.sensor_type === sensorType);
       if (!setting) {
         return res.status(404).json({ errors: "Setting not found" });
       }

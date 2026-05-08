@@ -4,7 +4,7 @@ export class SensorSettingService {
   static async getSettingsByAlat(alatId: string) {
     const alat = await prisma.alat.findUnique({ where: { id: alatId } });
     if (!alat) {
-      const err: any = new Error("Alat not found");
+      const err = new Error("Alat not found") as Error & { status?: number };
       err.status = 404;
       throw err;
     }
@@ -24,7 +24,7 @@ export class SensorSettingService {
   ) {
     const setting = await prisma.sensorSetting.findUnique({ where: { id: settingId } });
     if (!setting) {
-      const err: any = new Error("SensorSetting not found");
+      const err = new Error("SensorSetting not found") as Error & { status?: number };
       err.status = 404;
       throw err;
     }

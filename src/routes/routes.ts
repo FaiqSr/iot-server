@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { UserController } from "../controller/UserController";
 import { AuthMiddleware } from "../middleware/AuthMiddleware";
-import { requireRole } from "../middleware/RoleMiddleware";
 import { DeviceController } from "../controller/DeviceController";
 import { SensorSettingController } from "../controller/SensorSettingController";
 import { NotificationController } from "../controller/NotificationController";
@@ -18,7 +17,12 @@ router.post("/api/device/claim", AuthMiddleware, async (req, res, next) =>
   DeviceController.claimDevice(req, res, next),
 );
 
-// legacy / alternate route used in integration tests
+router.post(
+  "/api/device/register-fcm",
+  AuthMiddleware,
+  async (req, res, next) => DeviceController.registerFcm(req, res, next),
+);
+
 router.post("/api/claim-device", AuthMiddleware, async (req, res, next) =>
   DeviceController.claimDevice(req, res, next),
 );

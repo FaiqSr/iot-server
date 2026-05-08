@@ -9,7 +9,7 @@ export class SensorSettingController {
     try {
       const alatIdRaw = req.params.alatId;
       if (!alatIdRaw || Array.isArray(alatIdRaw)) {
-        const e: any = new Error("Invalid alat id");
+        const e = new Error("Invalid alat id") as Error & { status?: number };
         e.status = 400;
         throw e;
       }
@@ -25,14 +25,14 @@ export class SensorSettingController {
     try {
       const settingId = Number(req.params.settingId);
       if (!Number.isFinite(settingId)) {
-        const e: any = new Error("Invalid setting id");
+        const e = new Error("Invalid setting id") as Error & { status?: number };
         e.status = 400;
         throw e;
       }
 
       const setting = await prisma.sensorSetting.findUnique({ where: { id: settingId } });
       if (!setting) {
-        const e: any = new Error("SensorSetting not found");
+        const e = new Error("SensorSetting not found") as Error & { status?: number };
         e.status = 404;
         throw e;
       }
@@ -42,9 +42,14 @@ export class SensorSettingController {
       if (setting.sensor_type === "PH") schema = PH_SCHEMA;
       else if (setting.sensor_type === "TEMPERATURE") schema = TEMP_SCHEMA;
 
-      const data = ValidationService.validate(schema, req.body);
+      const data = ValidationService.validate(schema, req.body) as unknown;
 
-      const updated = await SensorSettingService.updateSetting(settingId, data as any);
+      const updated = await SensorSettingService.updateSetting(settingId, data as unknown as {
+        min_value?: number | null;
+        max_value?: number | null;
+        is_active?: boolean;
+        alert_interval?: number;
+      });
       return res.status(200).json({ data: updated });
     } catch (err) {
       return next(err);

@@ -1,4 +1,5 @@
-/* eslint-env jest */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports */
+
 jest.mock("../service/SensorSettingService", () => ({
   __esModule: true,
   default: { getSettingsByAlat: jest.fn() },

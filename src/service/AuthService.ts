@@ -53,21 +53,23 @@ export class AuthService {
 
   public static async refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
     try {
-      const payload = verifyJwt(refreshToken);
+      const payload = verifyJwt(refreshToken) as unknown as { userId?: string };
 
       if (!payload || !payload.userId) throw new Error("Invalid refresh token");
-        const tokenRecord: any = await prismaClient.refreshToken.findUnique({ where: { token: refreshToken } });
-        if (!tokenRecord || tokenRecord.revoked) throw new Error("Invalid refresh token");
-        if (tokenRecord.expiresAt && new Date(tokenRecord.expiresAt) < new Date()) throw new Error("Invalid refresh token");
+      const tokenRecord = (await prismaClient.refreshToken.findUnique({ where: { token: refreshToken } })) as
+        | { revoked?: boolean; expiresAt?: string | Date }
+        | null;
+      if (!tokenRecord || tokenRecord.revoked) throw new Error("Invalid refresh token");
+      if (tokenRecord.expiresAt && new Date(tokenRecord.expiresAt) < new Date()) throw new Error("Invalid refresh token");
 
-        const user = await prismaClient.user.findUnique({ where: { uuid: payload.userId } });
-        if (!user) throw new Error("Invalid refresh token");
+      const user = await prismaClient.user.findUnique({ where: { uuid: payload.userId } });
+      if (!user) throw new Error("Invalid refresh token");
 
-        const role = user.pekerjaan === "admin" ? "admin" : "user";
+      const role = user.pekerjaan === "admin" ? "admin" : "user";
 
-        const accessToken = signJwt({ userId: user.uuid, email: user.email, role }, "15m");
-        return { accessToken, refreshToken };
-    } catch (err) {
+      const accessToken = signJwt({ userId: user.uuid, email: user.email, role }, "15m");
+      return { accessToken, refreshToken };
+    } catch (_err) {
       throw new Error("Invalid refresh token");
     }
   }
@@ -75,10 +77,12 @@ export class AuthService {
     public static async logout(refreshToken: string): Promise<void> {
       if (!refreshToken) return;
       try {
-        const tokenRecord: any = await prismaClient.refreshToken.findUnique({ where: { token: refreshToken } });
+        const tokenRecord = (await prismaClient.refreshToken.findUnique({ where: { token: refreshToken } })) as
+          | { revoked?: boolean }
+          | null;
         if (!tokenRecord) return;
         await prismaClient.refreshToken.update({ where: { token: refreshToken }, data: { revoked: true } });
-      } catch (err) {
+      } catch (_err) {
         // ignore errors during logout
       }
     }
