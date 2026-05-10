@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aquacare-iot-server:latest
+    env_file:
+      - .env
+    environment:
+      FIREBASE_SERVICE_ACCOUNT_PATH: /run/secrets/firebase-service.json
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/assets/firebase-service.json:/run/secrets/firebase-service.json:ro
+    restart: unless-stopped
