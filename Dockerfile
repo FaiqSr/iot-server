@@ -20,7 +20,10 @@ COPY --from=builder /usr/src/app/dist ./dist
 COPY package.json package-lock.json* ./
 
 # Install only production dependencies (dotenv is in dependencies)
-RUN npm ci --omit=dev
+RUN npm i --omit=dev
+
+# Ensure firebase service JSON is available at runtime
+COPY --from=builder /usr/src/app/src/assets/firebase-service.json ./src/assets/firebase-service.json
 
 # Non-root user
 RUN addgroup -S app && adduser -S app -G app
